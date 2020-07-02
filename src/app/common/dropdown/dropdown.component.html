@@ -1,0 +1,14 @@
+<div *ngIf= "label" class= "col-md-5"><label [for]="id">{{label}}</label></div>
+<div  [ngClass] = "(label)? 'col-md-7' : 'col-md-12' " *ngIf = "isSequence">
+    <select class="form-control" (input)="onChange($event.target.value)" (blur)="onTouched($event)" (change) = "valueChanged($event)"
+        [disabled]="disabled">
+        <option *ngFor="let number of numbers" [value] = "number" [selected] = "number == default">{{ number + " " + ((number == 1) ? postFix : postFix + "s")}}</option>
+    </select>
+</div>
+<div class="col-md-7" *ngIf = "!isSequence">
+    <select class="form-control" (input)="onChange($event.target.value)" (blur)="onTouched($event)" (change) = "valueChanged($event)"
+        [disabled]="disabled">
+        <option *ngFor="let option of options" [value]= "option.value" [selected] = "default === option.value">{{option.label}}</option>
+    </select>
+</div>
+
