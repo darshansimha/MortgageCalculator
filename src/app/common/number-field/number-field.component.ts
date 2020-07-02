@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input } from "@angular/core";
+import { Component, forwardRef, Input, ChangeDetectorRef } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, AbstractControl, Validators, NG_VALIDATORS } from "@angular/forms";
 
 @Component({
@@ -28,7 +28,9 @@ export class NumberFieldComponent implements ControlValueAccessor {
   
   }
 
-  writeValue(value: any) { this.value = value; }
+  writeValue(value: any) { 
+    this.value = value;
+  }
 
   registerOnChange(fn: (value: any) => void) { 
     this.onChange = fn; 

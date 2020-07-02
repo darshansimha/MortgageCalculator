@@ -43,6 +43,9 @@ export class PaymentCalculationService {
     }
     mortgageCalculationValues(data: any) {
         const compoundInterest = (data.mortgageAmount * Math.pow((1 + (data.roi / (12 * 100))), (12 * data.term)));
+        if(data.timePeriod["timePeriod1"] == 0) {
+            data.timePeriod["timePeriod1"] = 1;
+        }
         this.tableData.rows = [];
         this.tableData.rows.push(["Number of Payments", data.term * data.paymentFrequency, data.term * data.paymentFrequency * data.timePeriod["timePeriod0"] * (data.timePeriod["timePeriod1"])]);
         this.tableData.rows.push(["Mortgage Payment", compoundInterest / (data.timePeriod["timePeriod0"] + (data.timePeriod["timePeriod1"] / 12)), compoundInterest / (data.timePeriod["timePeriod0"] + (data.timePeriod["timePeriod1"] / 12))]);

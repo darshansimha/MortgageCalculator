@@ -28,7 +28,7 @@ export class PaymentPlanComponent implements OnInit {
   ngOnInit() {
     this.formConfigurations = [
       { type: "number", isRequired: true, placeholder: "Mortgage Amount", label: "Mortgage Amount", id: "mortgageAmount", currency: "$", forward: true },
-      { type: "number", isRequired: true, placeholder: "Rate of Interest", label: "Interest Rate", id: "roi", currency: "%", forward: false },
+      { type: "number", isRequired: true, placeholder: "Rate of Interest", label: "Interest Rate", id: "roi", currency: "%", forward: false},
       {
         type: "splitDropdown", isRequired: true, label: "Amortization Period", id: "timePeriod", options: [
           { isSequence: true, low: 1, high: 30, postFix: "Year", default: 25, isRequired: true },
