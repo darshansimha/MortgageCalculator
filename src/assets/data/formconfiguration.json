@@ -1,0 +1,23 @@
+{
+    "data" : [
+    { "type" : "number", "isRequired" : true, "placeholder" : "Mortgage Amount", "label" : "Mortgage Amount", "id" : "mortgageAmount", "currency" : "$", "forward" : true },
+    { "type" : "number", "isRequired" : true, "placeholder" : "Rate of Interest", "label" : "Interest Rate", "id" : "roi", "currency" : "%", "forward" : false},
+    {
+      "type" : "splitDropdown", "isRequired" : true, "label" : "Amortization Period", "id" : "timePeriod", "options" : [
+        { "isSequence" : true, "low" : 1, "high" : 30, "postFix" : "Year", "default" : 25, "isRequired" : true },
+        { "isSequence" : true, "low" : 0, "high" : 11, "postFix" : "Month", "default" : 0, "isRequired" : false }
+      ]
+    },
+    {
+      "type" : "dropdown", "isRequired" : true, "label" : "Payment Frequency", "id" : "paymentFrequency", "options" : [
+        { "label" : "Accelerated Weekly", "value" : 52.5 },
+        { "label" : "Weekly", "value" : 52 },
+        { "label" : "Accelerated Bi-Weekly", "value" : 104.5 },
+        { "label" : "Bi-Weekly", "value" : 104 },
+        { "label" : "Semi Monthly", "value" : 24 },
+        { "label" : "Monthly", "value" : 12 }
+      ], "default" : 12
+    },
+    { "type" : "dropdown", "isRequired" : true, "label" : "Term", "id" : "term", "isSequence" : true, "low" : 1, "high" : 10, "postFix" : "Year", "default" : 5 }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+   "data" : [
+    { "type" : "number", "isRequired" : true, "placeholder" : "Prepayment Amount", "label" : "Prepayment Amount", "id" : "prePaymentAmount", "currency" : "$", "forward" : true, "default" : 1000},
+    {
+      "type" : "dropdown", "isRequired" : true, "label" : "PrePayment Frequency", "id" : "prePaymentFrequency", "options" : [
+        { "label" : "One Time", "value" : 1 },
+        { "label" : "Each Year", "value" : 12 },
+        { "label" : "Same as Regular Payment", "value" : 13 }
+      ], "default" : 1
+    },
+    { "type" : "number", "isRequired" : false, "placeholder" : "Start with payment", "label" : "Start With Payment", "id" : "paymentStart", "default" : 1 }
+  ]
+}
