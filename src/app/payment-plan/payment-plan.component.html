@@ -35,4 +35,6 @@
   <button class="btn btn-primary calculateButton" [disabled]="mortgageForm.invalid">Calculate</button>
 </form>
 
+<data-table *ngIf = "paymentService?.tableData.rows.length > 0" [tableInput] = "paymentService?.tableData"></data-table>
+
 

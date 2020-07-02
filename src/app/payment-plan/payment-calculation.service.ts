@@ -12,6 +12,12 @@ export class PaymentCalculationService {
     notifiyObservable: Observable<any> = new Observable<any>((observer: any) =>
         this._notifyObserver = observer
     );
+    tableData: any = {
+        columns : ["Category", "Term", "Amortization Period"],
+        rows : [
+        
+        ],
+    }
     constructor() {
         if (!PaymentCalculationService._instance) {
             PaymentCalculationService._instance = this;
@@ -23,36 +29,27 @@ export class PaymentCalculationService {
     }
     calculate(obj) {
         if (typeof Worker !== 'undefined') {
-            const worker = new Worker('./mortgage-worker.worker.ts');
+            const worker = new Worker('./mortgage-worker.worker.ts', { type: 'module' });
             worker.onmessage = ({ data }) => {
-              console.log(`page got message: ${data}`);
-              this._notifyObserver.next(data);
+                console.log(`page got message: ${data}`);
+                this._notifyObserver.next(data);
             };
             worker.postMessage(obj);
-          } else {
-              console.error("Workers not supported");
-          }
+        } else {
+            console.error("Workers not supported");
         }
+        this.mortgageCalculationValues(obj);
+        console.log(this.tableData);
     }
-
-    // const mortgageCalculationValues = (evt) => {
-    //     let result = {
-    //         numberOfPayments : 0,
-    //         mortgagePayment : 0,
-    //         prePayment : 0,
-    //         principalPayment : 0,
-    //         interestPayment : 0,
-    //         totalCost : 0,
-    //         interestSavingsWithNonMonthlyPlan : 0
-    //     }
-    //     const compoundInterest = (evt.mortgageAmount * Math.pow((1 + (evt.roi / (12 * 100))), (12 * evt.term)));
-    //     result.totalCost = compoundInterest;
-    //     result.numberOfPayments = evt.term * evt.paymentFrequency;
-    //     result.mortgagePayment = compoundInterest/(evt.timePeriod["timePeriod0"] + (evt.timePeriod["timePeriod1"]/12))
-    //     result.prePayment = evt.prePaymentAmount;
-    //     result.interestPayment = compoundInterest - evt.mortgageAmount;
-    //     result.principalPayment = evt.mortgageAmount/evt.term;
-    //     result.interestSavingsWithNonMonthlyPlan = (evt.mortgageAmount/evt.term) + 860;
-
-    //     return result;
-    // }
+    mortgageCalculationValues(data: any) {
+        const compoundInterest = (data.mortgageAmount * Math.pow((1 + (data.roi / (12 * 100))), (12 * data.term)));
+        this.tableData.rows = [];
+        this.tableData.rows.push(["Number of Payments", data.term * data.paymentFrequency, data.term * data.paymentFrequency * data.timePeriod["timePeriod0"] * (data.timePeriod["timePeriod1"])]);
+        this.tableData.rows.push(["Mortgage Payment", compoundInterest / (data.timePeriod["timePeriod0"] + (data.timePeriod["timePeriod1"] / 12)), compoundInterest / (data.timePeriod["timePeriod0"] + (data.timePeriod["timePeriod1"] / 12))]);
+        this.tableData.rows.push(["Pre Payment", (data.prePaymentAmount) ? data.prePaymentAmount : 0, (data.prePaymentAmount) ? data.prePaymentAmount : 0]);
+        this.tableData.rows.push(["Principal Payments", data.mortgageAmount / data.term, (data.mortgageAmount / data.term) * (data.timePeriod["timePeriod0"]) * (data.timePeriod["timePeriod1"])]);
+        this.tableData.rows.push(["Interest Payment", compoundInterest - data.mortgageAmount, (compoundInterest - data.mortgageAmount) * data.timePeriod["timePeriod0"] * (data.timePeriod["timePeriod1"])]);
+        this.tableData.rows.push(["Total Cost", compoundInterest, compoundInterest * data.timePeriod["timePeriod0"] * (data.timePeriod["timePeriod1"])]);
+        this.tableData.rows.push(["Interest Savings with a Non-Monthly Payment Plan", (data.mortgageAmount / data.term) + 860, ((data.mortgageAmount / data.term) + 860) * data.timePeriod["timePeriod0"] * (data.timePeriod["timePeriod1"])]);
+    }
+}

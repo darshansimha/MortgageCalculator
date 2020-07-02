@@ -1,0 +1,10 @@
+<table class="table table-striped">
+    <thead>
+        <tr *ngFor = "let headers of tableInput.columns"> {{headers}}</tr>
+    </thead>
+    <tbody>
+        <tr *ngFor = "let row of tableInput.rows">
+            <td *ngFor = "let coldata of row">{{coldata}}</td>
+        </tr>
+    </tbody>
+  </table>

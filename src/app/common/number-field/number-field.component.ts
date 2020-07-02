@@ -19,8 +19,8 @@ export class NumberFieldComponent implements ControlValueAccessor {
   @Input() currency: symbol;
   @Input() forward: boolean;
   @Input() default: number;
-  private onChange = (_: any) => { };
-  private onTouched = (_: any) => { };
+  onChange = (_: any) => { };
+  onTouched = (_: any) => { };
   value: string;
   disabled = false;
 

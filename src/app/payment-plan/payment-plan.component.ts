@@ -12,7 +12,7 @@ export class PaymentPlanComponent implements OnInit {
   mortgageForm: FormGroup;
   enablePrePayment: boolean = false;
   prePaymentFormConfigurations: Array<any>;
-  constructor(private paymentService: PaymentCalculationService) { 
+  constructor(public paymentService: PaymentCalculationService) { 
     this.mortgageForm = new FormGroup({
       mortgageAmount : new FormControl(),
       roi : new FormControl(),
@@ -65,12 +65,6 @@ export class PaymentPlanComponent implements OnInit {
     ]
     
     this.enablePrePayment = !this.enablePrePayment;
-
-    if(!this.enablePrePayment) {
-      this.mortgageForm.removeControl("prePaymentAmount");
-      this.mortgageForm.removeControl("prePaymentFrequency");
-      this.mortgageForm.removeControl("paymentStart");
-    }
   }
   submit() {
     this.paymentService._getDataObserver.next(this.mortgageForm.value);

@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { CommonsModule } from '../common/common.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaymentCalculationService } from './payment-calculation.service';
+import { DataTableModule } from '../data-table/datatable.module'
 
 @NgModule({
     declarations: [
@@ -15,7 +16,8 @@ import { PaymentCalculationService } from './payment-calculation.service';
       CommonModule,
       CommonsModule,
       FormsModule,
-      ReactiveFormsModule
+      ReactiveFormsModule,
+      DataTableModule
     ],
     exports: [
         PaymentPlanComponent

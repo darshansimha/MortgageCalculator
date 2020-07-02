@@ -1,4 +1,3 @@
-import { TextboxComponent } from './textbox/textbox.component';
 import { NumberFieldComponent } from './number-field/number-field.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -8,7 +7,6 @@ import { SplitDropdownComponent } from './split-dropdown/split-dropdown.componen
 
 @NgModule({
     declarations: [
-      TextboxComponent,
       NumberFieldComponent,
       DropdownComponent,
       SplitDropdownComponent
@@ -18,7 +16,6 @@ import { SplitDropdownComponent } from './split-dropdown/split-dropdown.componen
       CommonModule
     ],
     exports: [
-      TextboxComponent,
       NumberFieldComponent,
       DropdownComponent,
       SplitDropdownComponent
