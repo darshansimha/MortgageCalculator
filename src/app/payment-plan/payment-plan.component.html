@@ -37,7 +37,7 @@
   </form>
 <div class="row">
   <div class="col-md-6">
-    <data-table *ngIf = "paymentService?.tableData.rows.length > 0" [tableInput] = "paymentService?.tableData" [caption] = "'Calculation Summary'"></data-table>
+    <data-table *ngIf = "paymentService?.tableData?.rows?.length > 0" [tableInput] = "paymentService?.tableData" [caption] = "'Calculation Summary'"></data-table>
   </div>
 </div>
 

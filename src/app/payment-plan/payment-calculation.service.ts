@@ -12,12 +12,7 @@ export class PaymentCalculationService {
     notifiyObservable: Observable<any> = new Observable<any>((observer: any) =>
         this._notifyObserver = observer
     );
-    tableData: any = {
-        columns : ["Category", "Term", "Amortization Period"],
-        rows : [
-        
-        ],
-    }
+    tableData: any;
     constructor() {
         if (!PaymentCalculationService._instance) {
             PaymentCalculationService._instance = this;
