@@ -1,19 +1,18 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PaymentCalculationService } from './payment-calculation.service';
-import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 @Component({
   selector: 'payment-plan',
   templateUrl: './payment-plan.component.html',
   styleUrls: ['./payment-plan.component.css'],
 })
-export class PaymentPlanComponent implements OnInit {
+export class PaymentPlanComponent implements OnInit, OnDestroy {
   formConfigurations: any;
   mortgageForm: FormGroup;
   enablePrePayment: boolean = false;
   prePaymentFormConfigurations: Array<any>;
-  constructor(public paymentService: PaymentCalculationService, private http: HttpClient, private cdRef: ChangeDetectorRef) { }
+  constructor(public paymentService: PaymentCalculationService, private cdRef: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.mortgageForm = new FormGroup({
@@ -40,6 +39,10 @@ export class PaymentPlanComponent implements OnInit {
   }
   submit() {
     this.paymentService._getDataObserver.next(this.mortgageForm.value);
+  }
+
+  ngOnDestroy(): void {
+    this.mortgageForm = null;
   }
 
 }
