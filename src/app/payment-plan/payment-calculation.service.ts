@@ -1,19 +1,16 @@
 import { Injectable } from "@angular/core";
-import { Observer, Subject, Observable } from 'rxjs';
+import { Observer, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
-export class PaymentCalculationService {
+export class PaymentCalculationService{
     private static _instance: PaymentCalculationService;
     _getDataObserver: Observer<any>;
     getDataObservable: Observable<any> = new Observable<any>((observer: any) =>
         this._getDataObserver = observer
     );
-    _notifyObserver: Observer<any>;
-    notifiyObservable: Observable<any> = new Observable<any>((observer: any) =>
-        this._notifyObserver = observer
-    );
     tableData: any;
-    constructor() {
+    constructor(private http: HttpClient) {
         if (!PaymentCalculationService._instance) {
             PaymentCalculationService._instance = this;
         }
@@ -32,5 +29,11 @@ export class PaymentCalculationService {
         } else {
             console.error("Workers not supported");
         }
+    }
+    fetchFormConfigurations(): Observable<any> {
+        return this.http.get('../../assets/data/formconfiguration.json')
+    }
+    fetchPrepaymentFormConfigurations(): Observable<any> {
+        return this.http.get('../../assets/data/prePaymentFormConfigurations.json');
     }
 }

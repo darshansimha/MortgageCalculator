@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PaymentCalculationService } from './payment-calculation.service';
 import { HttpClient } from '@angular/common/http';
-
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'payment-plan',
   templateUrl: './payment-plan.component.html',
@@ -13,34 +13,29 @@ export class PaymentPlanComponent implements OnInit {
   mortgageForm: FormGroup;
   enablePrePayment: boolean = false;
   prePaymentFormConfigurations: Array<any>;
-  constructor(public paymentService: PaymentCalculationService, private http: HttpClient, private cdRef: ChangeDetectorRef) { 
-    this.paymentService.notifiyObservable.subscribe((data) => {
-      console.log(data);
-    })
-  }
+  constructor(public paymentService: PaymentCalculationService, private http: HttpClient, private cdRef: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.mortgageForm = new FormGroup({
-      mortgageAmount : new FormControl('', [Validators.min(0)]),
-      roi : new FormControl('', [Validators.min(0)]),
-      timePeriod : new FormControl(),
-      paymentFrequency : new FormControl(),
-      term : new FormControl(),
+      mortgageAmount: new FormControl('', [Validators.min(0)]),
+      roi: new FormControl('', [Validators.min(0)]),
+      timePeriod: new FormControl(),
+      paymentFrequency: new FormControl(),
+      term: new FormControl(),
     });
-    this.http.get('../../assets/data/formconfiguration.json').subscribe((data) => {
-      this.formConfigurations = data["data"];
+    this.paymentService.fetchFormConfigurations().pipe(map((response: any) => response["data"])).subscribe((data) => {
+      this.formConfigurations = data;
       this.cdRef.detectChanges();
-    })
+    });
   }
   enablePrePaymentSection() {
     this.mortgageForm.addControl("prePaymentAmount", new FormControl('', [Validators.min(0)]));
     this.mortgageForm.addControl("prePaymentFrequency", new FormControl());
     this.mortgageForm.addControl("paymentStart", new FormControl('', [Validators.min(0)]));
-    this.http.get('../../assets/data/prePaymentFormConfigurations.json').subscribe((data) => {
-      this.prePaymentFormConfigurations = data["data"];
+    this.paymentService.fetchPrepaymentFormConfigurations().pipe(map((response: any) => response["data"])).subscribe((data) => {
+      this.prePaymentFormConfigurations = data;
       this.cdRef.detectChanges();
     });
-    
     this.enablePrePayment = !this.enablePrePayment;
   }
   submit() {

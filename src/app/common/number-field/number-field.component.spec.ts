@@ -22,4 +22,8 @@ describe('NumberFieldComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('writes value', () => {
+    component.writeValue(9);
+    expect(component.value.toString()).toBe("9");
+  })
 });
