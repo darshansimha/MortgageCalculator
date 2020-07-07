@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { PaymentCalculationService } from './payment-calculation.service';
 import { map } from 'rxjs/operators';
 @Component({
@@ -12,20 +12,28 @@ export class PaymentPlanComponent implements OnInit, OnDestroy {
   mortgageForm: FormGroup;
   enablePrePayment: boolean = false;
   prePaymentFormConfigurations: Array<any>;
-  constructor(public paymentService: PaymentCalculationService, private cdRef: ChangeDetectorRef) { }
+  isFormInValid: boolean = false;
+  constructor(public paymentService: PaymentCalculationService, private formBuilder: FormBuilder) {
+
+  }
 
   ngOnInit() {
-    this.mortgageForm = new FormGroup({
-      mortgageAmount: new FormControl('', [Validators.min(0)]),
-      roi: new FormControl('', [Validators.min(0)]),
-      timePeriod: new FormControl(),
-      paymentFrequency: new FormControl(),
-      term: new FormControl(),
+    this.mortgageForm = this.formBuilder.group({
+      mortgageAmount: ['', [Validators.min(0)]],
+      roi: ['', [Validators.min(0)]],
+      timePeriod: [''],
+      paymentFrequency: [''],
+      term: [''],
     });
     this.paymentService.fetchFormConfigurations().pipe(map((response: any) => response["data"])).subscribe((data) => {
       this.formConfigurations = data;
-      this.cdRef.detectChanges();
     });
+    this.mortgageForm.statusChanges.subscribe((data) => {
+      if(data === 'INVALID')
+        this.isFormInValid = true;
+      else
+        this.isFormInValid = false;
+    })
   }
   enablePrePaymentSection() {
     this.mortgageForm.addControl("prePaymentAmount", new FormControl('', [Validators.min(0)]));
@@ -33,7 +41,6 @@ export class PaymentPlanComponent implements OnInit, OnDestroy {
     this.mortgageForm.addControl("paymentStart", new FormControl('', [Validators.min(0)]));
     this.paymentService.fetchPrepaymentFormConfigurations().pipe(map((response: any) => response["data"])).subscribe((data) => {
       this.prePaymentFormConfigurations = data;
-      this.cdRef.detectChanges();
     });
     this.enablePrePayment = !this.enablePrePayment;
   }

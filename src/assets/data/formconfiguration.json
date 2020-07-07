@@ -1,7 +1,7 @@
 {
     "data" : [
-    { "type" : "number", "isRequired" : true, "placeholder" : "Mortgage Amount", "label" : "Mortgage Amount", "id" : "mortgageAmount", "currency" : "$", "forward" : true },
-    { "type" : "number", "isRequired" : true, "placeholder" : "Rate of Interest", "label" : "Interest Rate", "id" : "roi", "currency" : "%", "forward" : false},
+    { "type" : "number", "isRequired" : true, "placeholder" : "Mortgage Amount", "label" : "Mortgage Amount", "id" : "mortgageAmount", "currency" : "$", "forward" : true, "default" : 1000000 },
+    { "type" : "number", "isRequired" : true, "placeholder" : "Rate of Interest", "label" : "Interest Rate", "id" : "roi", "currency" : "%", "forward" : false, "default" : 7},
     {
       "type" : "splitDropdown", "isRequired" : true, "label" : "Amortization Period", "id" : "timePeriod", "options" : [
         { "isSequence" : true, "low" : 1, "high" : 30, "postFix" : "Year", "default" : 25, "isRequired" : true },

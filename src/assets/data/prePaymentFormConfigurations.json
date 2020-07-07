@@ -6,7 +6,8 @@
       "label": "Prepayment Amount",
       "id": "prePaymentAmount",
       "currency": "$",
-      "forward": true
+      "forward": true,
+      "default" : 1000
     },
     {
       "type": "dropdown",
@@ -30,10 +31,11 @@
     },
     {
       "type": "number",
-      "isRequired": false,
+      "isRequired": true,
       "placeholder": "Start with payment",
       "label": "Start With Payment",
-      "id": "paymentStart"
+      "id": "paymentStart",
+      "default" : 1
     }
   ]
 }

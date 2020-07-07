@@ -35,6 +35,7 @@ export class NumberFieldComponent implements ControlValueAccessor {
   registerOnChange(fn: (value: any) => void) { 
     this.onChange = fn; 
     this.onChange(this.default);
+    this.writeValue(this.default);
   }
 
   registerOnTouched(fn: any) { this.onTouched = fn; }
